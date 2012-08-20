@@ -1,1 +1,0 @@
-Judging System written in Laravel
