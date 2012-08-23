@@ -4,6 +4,7 @@ class Criteria extends Eloquent
 {
 
 	public static $timestamps = true;
+	public static $table = 'criteria';
 
 
 	public function contest()

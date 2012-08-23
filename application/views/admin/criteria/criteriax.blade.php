@@ -3,18 +3,26 @@
 <div class="clear"></div>
 
 <table class="table table-bordered" style="margin-top:10px;">
-<tr>
-  <td>Talent</td> 
-  <td class="right">15%</td>
-</tr>
-<tr>
-  <td>Talent</td> 
-  <td class="right">15%</td>
-</tr>
+<?php $total = 0; ?>
+@forelse($criteria as $key => $value)
+  <?php $total += $value->percentage; ?>
+  <tr>
+    <td>{{ HTML::link('admin/criteria/edit/'. $value->id , $value->name, array('class'=>'ajax'))}}</td>
+    <td width="60">
+      {{ HTML::decode(HTML::link('admin/criteria/edit/' . $value->id, '<i class="icon icon-pencil"></i>', array('class'=> 'btn btn-mini ajax', 'title'=>'Edit'))) }}
+      {{ HTML::decode(HTML::link('admin/criteria/delete/'. $value->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger ajax', 'title'=>'Delete'))) }}
+    </td>
+    <td class="right">{{ $value->percentage }}%</td>
+  </tr>
+@empty
+  <tr>
+    <td>No Criteria</td>
+  </tr>
+@endforelse
 <tfoot>
   <tr>
-    <th>Total</th>
-    <th width="50" class="right">100%</th>
+    <th colspan="2"> ---- Total</th>
+    <th width="50" class="right">{{ $total }}%</th>
   </tr>
 </tfoot>
 </table>
@@ -22,6 +30,7 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.ajax').on('click', function(e) {
+      console.log($(this).attr('href'));
       e.preventDefault();
       $('.content').load($(this).attr('href'))
     });

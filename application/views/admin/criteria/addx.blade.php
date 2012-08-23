@@ -1,22 +1,31 @@
 <?php $id = isset($data->id) ? $data->id : 0; ?>
-<h3>@if ($id)
-		Edit Criteria
-	@else
-		Add Criteria
-	@endif
-</h3>
-<hr>
-
 @include ('partials.messages')
 
 {{ Form::open( ($id) ? 'admin/criteria/edit' : 'admin/criteria/add', '', array('class'=>'form-horizontal'))}}
+<legend>{{ $id ? 'Edit Criteria' : 'Add Criteria' }}</legend>
+<div class="form-actions2">
+	{{ Form::button('Save changes', array('class'=>'btn btn-success', 'type'=>'submit'))}}
+	@if($ajax)
+		{{ HTML::link('admin/criteria/contest/'. $contest->id, 'Cancel', array('class'=>'btn ajax')) }}
+	@else
+		{{ HTML::link('admin/criteria', 'Cancel', array('class'=>'btn')) }}
+	@endif
+</div>
+
 {{ Form::hidden('id', ($id) ? $id : '' )}}
 {{ Form::hidden('contest_id', $contest->id) }}
 
 <div class="control-group">
-	{{ Form::label('name', 'Contest Name', array('class'=>'control-label'))}}
+	{{ Form::label('contest_name', 'Contest Name', array('class'=>'control-label'))}}
 	<div class="controls">
-		{{ Form::text('name', (isset($contest->name))  ? $contest->name : Input::old('name'), array('class'=>'input-xlarge disabled'))}}
+		{{ Form::text('contest_name', (isset($contest->name))  ? $contest->name : Input::old('contest_name'), array('class'=>'input-xlarge', 'disabled'=>'disabled'))}}
+	</div>
+</div>
+
+<div class="control-group">
+	{{ HTML::decode(Form::label('select_criteria', 'Contest as Criteria: <br /><sub>(or add Criteria Name below)</sub>', array('class'=>'control-label')))}}
+	<div class="controls">
+		{{ Form::select('select_criteria', $contests)}}	
 	</div>
 </div>
 
@@ -44,30 +53,37 @@
 	</div>
 </div>
 
-<div class="form-actions">
-	{{ Form::submit('Save changes', array('class'=>'btn btn-success'))}}
-	@if($ajax)
-		{{ HTML::link('admin/criteria/contest/1', 'Cancel', array('class'=>'btn ajax')) }}
-	@else
-		{{ HTML::link('admin/criteria', 'Cancel', array('class'=>'btn')) }}
-	@endif
-</div>
 {{ Form::close()}}
-
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form').submit(function() {
 			$.ajax({
 				type: 'POST',
-				url: '{{HTML::link("admin/criteria/add")}}',
+				url: '/admin/criteria/add',
+				data: $(this).serialize(),
+				success: function(data) {
+					if (data == true) {
+						$('.content').load('admin/criteria/contest/4');
+					} else {
+						alert('Error Saving.. Please check your inputs.');
+					};
+				}
 			});
-			alert($(this).serialize());
 			return false;
 		});
 
 	    $('.ajax').on('click', function(e) {
 	      	e.preventDefault();
 	      	$('.content').load($(this).attr('href'))
+	    });
+
+	    $('#select_criteria').on('change', function() {
+	    	if ($(this).val() != 0 ) {
+	    		$('#name').val($('#select_criteria option:selected').text());
+	    	} else {
+	    		$('#name').val('');
+	    	};
+
 	    });
 	});
 </script>

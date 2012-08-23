@@ -245,3 +245,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	height:18px;
 	background:green;
 }
+.form-actions2 {
+	float:right;
+	margin-top:-60px;
+}

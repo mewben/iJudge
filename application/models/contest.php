@@ -18,6 +18,19 @@ class Contest extends Eloquent
 		);
 	}
 
+	public static function selectContests()
+	{
+		$records = Contest::where('active', '=', '1')
+					->order_by('name', 'asc')
+					->get();
+
+		$res = array('0' => '-Select from Contests-');
+		foreach ($records as $key => $value) {
+			$res[$value->id] = $value->name;
+		}
+		return $res;
+	}
+
 	public static function menu()
 	{
 		Menu::handler('contests', array('class'=>'nav nav-list'))

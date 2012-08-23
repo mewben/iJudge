@@ -48,7 +48,7 @@ if (isset($data->banner)) {
 </div>
 
 <div class="form-actions">
-	{{ Form::submit('Save changes', array('class'=>'btn btn-success'))}}
+	{{ Form::button('Save changes', array('class'=>'btn btn-success', 'type'=>'submit'))}}
 	{{ HTML::link('admin/contests', 'Cancel', array('class'=>'btn'))}}
 </div>
 {{ Form::close()}}
