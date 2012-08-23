@@ -12,7 +12,7 @@
 		{{ HTML::script('js/jquery-1.7.2.min.js') }}
 	</head>
 	<body>
-		<div class="navbar">
+		<div class="navbar navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container-fluid">
 					<a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">

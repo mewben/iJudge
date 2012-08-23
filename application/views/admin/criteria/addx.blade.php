@@ -11,6 +11,14 @@
 
 {{ Form::open( ($id) ? 'admin/criteria/edit' : 'admin/criteria/add', '', array('class'=>'form-horizontal'))}}
 {{ Form::hidden('id', ($id) ? $id : '' )}}
+{{ Form::hidden('contest_id', $contest->id) }}
+
+<div class="control-group">
+	{{ Form::label('name', 'Contest Name', array('class'=>'control-label'))}}
+	<div class="controls">
+		{{ Form::text('name', (isset($contest->name))  ? $contest->name : Input::old('name'), array('class'=>'input-xlarge disabled'))}}
+	</div>
+</div>
 
 <div class="control-group@if($errors->first('name')) error@endif">
 	{{ Form::label('name', 'Criteria Name *', array('class'=>'control-label'))}}
@@ -39,7 +47,7 @@
 <div class="form-actions">
 	{{ Form::submit('Save changes', array('class'=>'btn btn-success'))}}
 	@if($ajax)
-		{{ HTML::link('admin/criteria', 'Cancel', array('class'=>'btn ajax')) }}
+		{{ HTML::link('admin/criteria/contest/1', 'Cancel', array('class'=>'btn ajax')) }}
 	@else
 		{{ HTML::link('admin/criteria', 'Cancel', array('class'=>'btn')) }}
 	@endif
@@ -56,5 +64,10 @@
 			alert($(this).serialize());
 			return false;
 		});
+
+	    $('.ajax').on('click', function(e) {
+	      	e.preventDefault();
+	      	$('.content').load($(this).attr('href'))
+	    });
 	});
 </script>

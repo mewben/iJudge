@@ -31,7 +31,7 @@
 	</tbody>
 </table>
 
-<div class="modal hide fade" id="confirm">
+<!-- <div class="modal hide fade" id="confirm">
     <div class="modal-header">
     	<a class="close" data-dismiss="modal">×</a>
     	<h3>Criteria</h3>
@@ -44,8 +44,21 @@
         <a href='#' data-dismiss="modal" class="btn">No</a>
   </div>
 </div>
-
-<div class="modal fade" id="myModal"></div>
+ -->
+<div class="modal fade" id="myModal">
+	<div class="modal-header">
+		<a class="close" data-dismiss="modal">×</a>
+    	<h3>Criteria</h3>
+	</div>
+	<div class="modal-body">
+		<div class="content">
+			
+		</div>
+  	</div>
+  	<div class="modal-footer">
+        <a href='#' data-dismiss="modal" class="btn">Close</a>
+  	</div>
+</div>
 
  <script>
 	$('document').ready(function() {
@@ -54,7 +67,7 @@
 			e.preventDefault();
 			var lv_target = $(this).attr('data-target');
 			var lv_url = $(this).attr('href');
-			$(lv_target).load(lv_url);
+			$('.content').load(lv_url);
 		});
 
 /*      	$('#delete_user').modal({
