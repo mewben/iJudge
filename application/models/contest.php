@@ -63,12 +63,37 @@ class Contest extends Eloquent
 			$table->integer('criteria_contest_id');
 			$table->timestamps();
 		});
+
+		Schema::create('judges', function($table)
+		{
+			$table->increments('id');
+			$table->string('username');
+			$table->string('password');
+			$table->integer('number');
+			$table->string('fullname');
+			$table->string('photo');
+			$table->integer('contest_id');
+			$table->timestamps();
+		});
+
+		Schema::create('contestants', function($table) 
+		{
+			$table->increments('id');
+			$table->integer('number');
+			$table->string('fullname');
+			$table->string('photo');
+			$table->integer('contest_id');
+			$table->boolean('active');
+			$table->timestamps();
+		});
 	}
 
 	public static function unsetup()
 	{
 		Schema::drop('contests');
 		Schema::drop('criteria');
+		Schema::drop('judges');
+		Schema::drop('contestants');
 	}
 }
 

@@ -249,3 +249,4 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	float:right;
 	margin-top:-60px;
 }
+.form-actions2 select {margin-bottom:0;}

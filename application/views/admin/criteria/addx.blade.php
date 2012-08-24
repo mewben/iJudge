@@ -1,7 +1,12 @@
-<?php $id = isset($data->id) ? $data->id : 0; ?>
+<?php 
+
+	$id = isset($data->id) ? $data->id : 0; 
+	$target = $id ? '/admin/criteria/edit' : '/admin/criteria/add';
+
+?>
 @include ('partials.messages')
 
-{{ Form::open( ($id) ? 'admin/criteria/edit' : 'admin/criteria/add', '', array('class'=>'form-horizontal'))}}
+{{ Form::open( $target , '', array('class'=>'form-horizontal'))}}
 <legend>{{ $id ? 'Edit Criteria' : 'Add Criteria' }}</legend>
 <div class="form-actions2">
 	{{ Form::button('Save changes', array('class'=>'btn btn-success', 'type'=>'submit'))}}
@@ -25,7 +30,7 @@
 <div class="control-group">
 	{{ HTML::decode(Form::label('select_criteria', 'Contest as Criteria: <br /><sub>(or add Criteria Name below)</sub>', array('class'=>'control-label')))}}
 	<div class="controls">
-		{{ Form::select('select_criteria', $contests)}}	
+		{{ Form::select('select_criteria', $contests, $data->criteria_contest_id)}}	
 	</div>
 </div>
 
@@ -59,11 +64,11 @@
 		$('form').submit(function() {
 			$.ajax({
 				type: 'POST',
-				url: '/admin/criteria/add',
+				url: '{{$target}}',
 				data: $(this).serialize(),
 				success: function(data) {
 					if (data == true) {
-						$('.content').load('admin/criteria/contest/4');
+						$('.content').load('/admin/criteria/contest/' + {{ $contest->id }});
 					} else {
 						alert('Error Saving.. Please check your inputs.');
 					};

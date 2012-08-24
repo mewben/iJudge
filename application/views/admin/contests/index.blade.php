@@ -1,20 +1,23 @@
 <h1>Contests</h1>
 @include ('partials.messages')
-{{ Form::open('admin/contests/action', '', array('class'=>'form-inline')) }}
 <table class="table table-striped table-hover">
 	<thead>
-		<th width="10">{{ Form::checkbox('selectall', '', false, array('class'=>'checkall')) }}</th>
 		<th width="100">Banner</th>
 		<th>Contest</th>
-		<th width="125">Actions</th>
+		<th width="200">Actions</th>
 	</thead>
 	<tbody>
 		@forelse ($data as $d)
 			<tr>
-				<td>{{ Form::checkbox('id[]', $d->id) }}</td>
 				<td>{{ HTML::image('thumbnails/' . $d->banner) }}</td>
 				<td>{{ HTML::link_to_action('admin.contests@edit/' . $d->id, $d->name) }}</td>
-				<td>{{ HTML::decode(HTML::link('admin/criteria/contest/' . $d->id, '<i class="icon icon-th-list"></i>', array('class'=>'btn btn-mini criteria', 'title'=>'Criteria', 'data-toggle'=>'modal', 'data-tasrget'=>'#myModal', 'data-backdrop'=>'static')))}}
+				<td>
+					{{ HTML::decode(HTML::link('admin/criteria/contest/' . $d->id, '<i class="icon icon-th-list"></i>', array('class'=>'btn btn-mini criteria', 'title'=>'Criteria', 'data-toggle'=>'modal', 'data-tasrget'=>'#myModal', 'data-backdrop'=>'static')))}}
+
+					{{ HTML::decode(HTML::link('admin/judges/contest/' . $d->id, '<i class="icon icon-briefcase"></i>', array('class'=>'btn btn-mini criteria', 'title'=>'Judges', 'data-toggle'=>'modal', 'data-tasrget'=>'#myModal', 'data-backdrop'=>'static')))}}
+
+					{{ HTML::decode(HTML::link('admin/contestants/view/' . $d->id, '<i class="icon icon-bookmark"></i>', array('class'=>'btn btn-mini criteria', 'title'=>'Contestants')))}}
+
 					{{ HTML::decode(HTML::link('admin/contests/edit/' . $d->id, '<i class="icon icon-pencil"></i>', array('class'=> 'btn btn-mini', 'title'=>'Edit'))) }}
 					{{ HTML::decode(HTML::link('admin/contests/delete/'. $d->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger confirm', 'title'=>'Delete'))) }}
 
@@ -31,24 +34,10 @@
 	</tbody>
 </table>
 
-<!-- <div class="modal hide fade" id="confirm">
-    <div class="modal-header">
-    	<a class="close" data-dismiss="modal">×</a>
-    	<h3>Criteria</h3>
-    </div>
-  <div class="modal-body">
-    	<p>Please wait...</p>
-  </div>
-  <div class="modal-footer">
-  		{{ Form::submit('Yes', array('class'=>'btn btn-danger'))}}
-        <a href='#' data-dismiss="modal" class="btn">No</a>
-  </div>
-</div>
- -->
 <div class="modal hide fade" id="myModal">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>
-    	<h3>Criteria</h3>
+    	<h3 id="mtitle">Criteria</h3>
 	</div>
 	<div class="modal-body">
 		<div class="content">
@@ -69,28 +58,8 @@
 			});
 			//var lv_target = $(this).attr('data-target');
 			var lv_url = $(this).attr('href');
+			$('#mtitle').text($(this).attr('title'));
 			$('.content').load(lv_url);
 		});
-
-/*      	$('#delete_user').modal({
-        	show:false
-      	}); // Start the modal
-      	
-
-
-      	$('.critseria').on('click', function(e) {
-      		e.preventDefault();
-      		$('#confirm').modal({backdrop:'static'});
-      	});
-
-      	$('.confirm').on('click', function(e) {
-      		if(!confirm('Are you sure you want to delete?')) {
-      			e.preventDefault();
-      		} 
-      	});
-
-      	$('.checkall').on('click', function() {
-      		$(this).parents('table').find(':checkbox').attr('checked', this.checked);
-      	});*/
 	});
 </script>

@@ -10,7 +10,7 @@
     <td>{{ HTML::link('admin/criteria/edit/'. $value->id , $value->name, array('class'=>'ajax'))}}</td>
     <td width="60">
       {{ HTML::decode(HTML::link('admin/criteria/edit/' . $value->id, '<i class="icon icon-pencil"></i>', array('class'=> 'btn btn-mini ajax', 'title'=>'Edit'))) }}
-      {{ HTML::decode(HTML::link('admin/criteria/delete/'. $value->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger ajax', 'title'=>'Delete'))) }}
+      {{ HTML::decode(HTML::link('admin/criteria/delete/'. $value->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger ajaxrequest', 'title'=>'Delete'))) }}
     </td>
     <td class="right">{{ $value->percentage }}%</td>
   </tr>
@@ -30,9 +30,23 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.ajax').on('click', function(e) {
-      console.log($(this).attr('href'));
       e.preventDefault();
       $('.content').load($(this).attr('href'))
+    });
+
+    $('.ajaxrequest').on('click', function(e) {
+      e.preventDefault();
+      $.ajax({
+        type: 'GET',
+        url: $(this).attr('href'),
+        success: function(data) {
+          if (data == true) {
+            $('.content').load('/admin/criteria/contest/' + {{ $data->id }});
+          } else {
+            alert('Error Deleting.. Something must have gone wrong.');
+          };
+        }
+      });
     });
   });
 </script>
