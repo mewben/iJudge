@@ -19,7 +19,7 @@
 <?php
 
 if (isset($data->photo)) {
-	$photo = 'style="background-image:url(' . "'" . URL::base() . '/thumbnails/' . $data->photo . "'" . ')"';
+	$photo = 'style="background-repeat:no-repeat;background-image:url(' . "'" . URL::base() . '/files/' . $data->photo . "'" . ')"';
 }
  ?>
 <div class="control-group banner" {{ isset($photo) ? $photo : ''}}>
@@ -76,7 +76,7 @@ if (isset($data->photo)) {
 		done: function(e, data) {
 			$.each(data.result, function(index, file) {
 				$('.banner').css('background-image', 'url('+file.url+')');
-				$('input[name="banner"]').val(file.name);
+				$('input[name="photo"]').val(file.name);
 				$('.fileinput-button').hide();
 			});
 		},
@@ -93,13 +93,14 @@ if (isset($data->photo)) {
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('form').submit(function() {
+			console.log($(this).serialize());
 			$.ajax({
 				type: 'POST',
 				url: '{{$target}}',
 				data: $(this).serialize(),
 				success: function(data) {
 					if (data == true) {
-						location.href = '{{HTML::link("admin/contestants/view/" . $contest->id)}}';
+						location.href = '/admin/contestants/view/' + {{$contest->id}};
 					} else {
 						alert('Error Saving.. Please check your inputs.');
 					};

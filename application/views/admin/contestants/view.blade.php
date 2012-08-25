@@ -9,10 +9,20 @@
 <div class="clear"></div>
 <ul class="thumbnails">
 	@forelse ($data as $key => $value)
-		<li class="span3">
-			<a href="#" class="thumbnail">
-				{{ HTML::image('portrait/' . $value->photo)}}
-			</a>
+		<li class="span2">
+			<div class="thumbnail">
+				{{ HTML::image('thumbnails/' . $value->photo, '', array('class'=>'img-polaroid'))}}
+				<p class="center"><span class="badge badge-success">{{$value->number}}</span> {{$value->fullname}}</p>
+				<p class="center form-actions">
+					{{ HTML::decode(HTML::link('admin/contestants/edit/' . $value->id, '<i class="icon icon-pencil"></i>', array('class'=> 'btn btn-mini ajax', 'title'=>'Edit Contestant', 'data-toggle'=>'modal', 'data-tasrget'=>'#myModal', 'data-backdrop'=>'static'))) }}
+					{{ HTML::decode(HTML::link('admin/contestants/delete/'. $value->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger ajaxrequest', 'title'=>'Delete'))) }}
+					@if ($value->active)
+						{{ HTML::decode(HTML::link('admin/contestants/active/'. $value->id . '/0', '<i class="icon-star-empty icon-white"></i>', array('class'=>'btn btn-mini btn-success', 'title'=>'Unpublish'))) }}
+					@else
+						{{ HTML::decode(HTML::link('admin/contestants/active/'. $value->id, '<i class="icon-star-empty"></i>', array('class'=>'btn btn-mini', 'title'=>'Publish'))) }}
+					@endif
+				</p>
+			</div>
 		</li>
 	@empty
 		<li>Empty</li>
@@ -45,6 +55,10 @@
 			var lv_url = $(this).attr('href');
 			$('#mtitle').text($(this).attr('title'));
 			$('.content').load(lv_url);
+		});
+
+		$('select[name=contest_id]').on('change', function() {
+			location.href = '/admin/contestants/view/' + $(this).val();
 		});
 	});
 </script>

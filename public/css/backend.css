@@ -228,7 +228,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 }
 
 .control-group.banner {
-	height:200px;
+	height:165px;
 	background-color:#eee;
 	position:relative;
 	background-position:center 50%;
@@ -239,7 +239,7 @@ textarea, input[type="text"], input[type="password"], input[type="datetime"], in
 	top:50%;
 	left:50%;
 	margin-top:-10px;
-	margin-left:-20px;
+	margin-left:-50px;
 }
 .bar {
 	height:18px;

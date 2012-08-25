@@ -16,7 +16,7 @@ class Admin_Contestants_Controller extends Admin_Controller
 	public function get_view($id) // contest_id
 	{
 		$contests = Contest::selectContests(); // for select
-		$data = Contestant::where('contest_id', '=', $id)->get();
+		$data = Contestant::where('contest_id', '=', $id)->order_by('number', 'asc')->get();
 		$this->layout->title = "Contestants";
 		$this->layout->content = View::make($this->vie . '.view')
 					->with('contests', $contests)
@@ -32,59 +32,57 @@ class Admin_Contestants_Controller extends Admin_Controller
 
 	public function post_add()
 	{
-		$validation = Validator::make(Input::all(), Contest::rules());
+		$validation = Validator::make(Input::all(), Contestant::rules());
 		if ($validation->fails()) {
-			Session::flash('error', 'Error processing. Please comply the requirements.');
-			return Redirect::to($this->rout . '/add')
-				->with_errors($validation)
-				->with_input();
+			return false;
 		} else {
-			Contest::create(array(
-				'name' => Input::get('name'),
-				'banner'=> Input::get('banner'),
-				'dependent' => Input::get('dependent', '0'),
+			Contestant::create(array(
+				'number' => Input::get('number'),
+				'fullname'=> Input::get('fullname'),
+				'photo' => Input::get('photo'),
+				'contest_id' => Input::get('contest_id'),
 				'active' => '1'
 			));
-			Session::flash('message', 'Contest added successfully.');
-			return Redirect::to($this->rout);
+			return true;
 		}
 	}
 
-	public function get_edit($id)
+	public function get_edit($id) //contestant_id
 	{
-		if (! $record = Contest::find($id)) {
-			return Redirect::to($this->rout);
+		if (! $record = Contestant::find($id)) {
+			return false;
 		}
-		$this->layout->title = 'Edit Contest';
-		
-		$this->layout->content = View::make($this->vie . '.add')
+		$contest = Contest::find($record->contest_id);
+		return View::make($this->vie . '.add')
+			->with('contest', $contest)
 			->with('data', $record);
 	}
 
 	public function post_edit()
 	{
-		$validation = Validator::make(Input::all(), Contest::rules());
+		$rules = Contestant::rules();
+		unset($rules['photo']);
+		$validation = Validator::make(Input::all(), $rules);
 		if ($validation->fails()) {
-			return Redirect::to($this->rout. '/edit/'.Input::get('id'))
-				->with_errors($validation)
-				->with_input();
+			return false;
 		} else {
 			try {
-				$record = Contest::find(Input::get('id'));
+				$record = Contestant::find(Input::get('id'));
 				$data = array(
-					'name' => Input::get('name'),
-					'dependent' => Input::get('dependent', '0')
+					'number' => Input::get('number'),
+					'fullname'=> Input::get('fullname'),
+					'contest_id' => Input::get('contest_id'),
+					'active' => '1'
 				);
-				if (Input::get('banner')) {
-					$data['banner'] = Input::get('banner');
+				if (Input::get('photo')) {
+					$data['photo'] = Input::get('photo');
 				}
 				$record->fill($data);
 				$record->save();
 
-				Session::flash('message', 'Contest edited successfully');
-				return Redirect::to($this->rout);
+				return true;
 			} catch (Exception $e) {
-				die($e);
+				return false;
 			}
 		}
 	}

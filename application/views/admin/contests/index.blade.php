@@ -9,7 +9,7 @@
 	<tbody>
 		@forelse ($data as $d)
 			<tr>
-				<td>{{ HTML::image('thumbnails/' . $d->banner) }}</td>
+				<td>{{ HTML::image('thumbnails/' . $d->banner, '', array('width' => '70')) }}</td>
 				<td>{{ HTML::link_to_action('admin.contests@edit/' . $d->id, $d->name) }}</td>
 				<td>
 					{{ HTML::decode(HTML::link('admin/criteria/contest/' . $d->id, '<i class="icon icon-th-list"></i>', array('class'=>'btn btn-mini criteria', 'title'=>'Criteria', 'data-toggle'=>'modal', 'data-tasrget'=>'#myModal', 'data-backdrop'=>'static')))}}

@@ -30,7 +30,7 @@
 <div class="control-group">
 	{{ HTML::decode(Form::label('select_criteria', 'Contest as Criteria: <br /><sub>(or add Criteria Name below)</sub>', array('class'=>'control-label')))}}
 	<div class="controls">
-		{{ Form::select('select_criteria', $contests, $data->criteria_contest_id)}}	
+		{{ Form::select('select_criteria', $contests, isset($data->criteria_contest_id) ? $data->criteria_contest_id : '0' )}}	
 	</div>
 </div>
 
