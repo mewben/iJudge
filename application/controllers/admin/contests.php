@@ -82,4 +82,20 @@ class Admin_Contests_Controller extends Admin_Controller
 			}
 		}
 	}
+
+	public function get_active($id, $value = 1)
+	{
+		if (Request::ajax()) {
+			if (! $record = Contest::find($id)) {
+				return false;
+			} else {
+				$data = array(
+					'active' => $value
+				);
+				$record->fill($data);
+				$record->save();
+				return true;
+			}
+		}
+	}
 }

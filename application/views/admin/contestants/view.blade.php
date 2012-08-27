@@ -17,9 +17,9 @@
 					{{ HTML::decode(HTML::link('admin/contestants/edit/' . $value->id, '<i class="icon icon-pencil"></i>', array('class'=> 'btn btn-mini ajax', 'title'=>'Edit Contestant', 'data-toggle'=>'modal', 'data-tasrget'=>'#myModal', 'data-backdrop'=>'static'))) }}
 					{{ HTML::decode(HTML::link('admin/contestants/delete/'. $value->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger ajaxrequest', 'title'=>'Delete'))) }}
 					@if ($value->active)
-						{{ HTML::decode(HTML::link('admin/contestants/active/'. $value->id . '/0', '<i class="icon-star-empty icon-white"></i>', array('class'=>'btn btn-mini btn-success', 'title'=>'Unpublish'))) }}
+						{{ HTML::decode(HTML::link('admin/contestants/active/'. $value->id . '/0', '<i class="icon-star-empty icon-white"></i>', array('class'=>'btn btn-mini btn-success ajaxrequest', 'title'=>'Deactivate'))) }}
 					@else
-						{{ HTML::decode(HTML::link('admin/contestants/active/'. $value->id, '<i class="icon-star-empty"></i>', array('class'=>'btn btn-mini', 'title'=>'Publish'))) }}
+						{{ HTML::decode(HTML::link('admin/contestants/active/'. $value->id, '<i class="icon-star-empty"></i>', array('class'=>'btn btn-mini ajaxrequest', 'title'=>'Activate'))) }}
 					@endif
 				</p>
 			</div>
@@ -60,5 +60,20 @@
 		$('select[name=contest_id]').on('change', function() {
 			location.href = '/admin/contestants/view/' + $(this).val();
 		});
+
+		$('.ajaxrequest').on('click', function(e) {
+	      	e.preventDefault();
+	      	$.ajax({
+	        	type: 'GET',
+	        	url: $(this).attr('href'),
+	        	success: function(data) {
+		          	if (data == true) {
+		            	location.href = '/admin/contestants/view/' + {{ $contest_id }};
+		          	} else {
+		            	alert('Error.. Something must have gone wrong.');
+			        };
+	        	}
+	      	});
+	    });
 	});
 </script>

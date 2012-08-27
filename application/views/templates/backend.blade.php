@@ -10,6 +10,10 @@
 		{{ HTML::style('fonts/open-sans-fontfacekit/stylesheet.css')}}
 		{{ HTML::style('css/backend.css') }}
 		{{ HTML::script('js/jquery-1.7.2.min.js') }}
+		@if(isset($otherhead))
+			{{ HTML::style('js/redactor/redactor.css') }}
+			{{ HTML::script('js/redactor/redactor.min.js') }}
+		@endif
 	</head>
 	<body>
 		<div class="navbar navbar-inverse">

@@ -86,4 +86,36 @@ class Admin_Contestants_Controller extends Admin_Controller
 			}
 		}
 	}
+
+	public function get_delete($id) // contestant_id
+	{
+		if (Request::ajax()) {
+			if (! $record = Contestant::find($id)) {
+				return false;
+			} else {
+				try {
+		        	$record->delete();
+		            return true;
+				} catch (Exception $e) {
+					return false;
+				}
+			}
+		}
+	}
+
+	public function get_active($id, $value = 1)
+	{
+		if (Request::ajax()) {
+			if (! $record = Contestant::find($id)) {
+				return false;
+			} else {
+				$data = array(
+					'active' => $value
+				);
+				$record->fill($data);
+				$record->save();
+				return true;
+			}
+		}
+	}
 }

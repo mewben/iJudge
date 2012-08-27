@@ -22,9 +22,9 @@
 					{{ HTML::decode(HTML::link('admin/contests/delete/'. $d->id, '<i class="icon icon-trash icon-white"></i>', array('class'=>'btn btn-mini btn-danger confirm', 'title'=>'Delete'))) }}
 
 					@if ($d->active)
-						{{ HTML::decode(HTML::link('admin/contests/active/'. $d->id . '/0', '<i class="icon-star-empty icon-white"></i>', array('class'=>'btn btn-mini btn-success', 'title'=>'Unpublish'))) }}
+						{{ HTML::decode(HTML::link('admin/contests/active/'. $d->id . '/0', '<i class="icon-star-empty icon-white"></i>', array('class'=>'btn btn-mini btn-success ajaxrequest', 'title'=>'Unpublish'))) }}
 					@else
-						{{ HTML::decode(HTML::link('admin/contests/active/'. $d->id, '<i class="icon-star-empty"></i>', array('class'=>'btn btn-mini', 'title'=>'Publish'))) }}
+						{{ HTML::decode(HTML::link('admin/contests/active/'. $d->id, '<i class="icon-star-empty"></i>', array('class'=>'btn btn-mini ajaxrequest', 'title'=>'Publish'))) }}
 					@endif
 				</td>
 			</tr>
@@ -61,5 +61,20 @@
 			$('#mtitle').text($(this).attr('title'));
 			$('.content').load(lv_url);
 		});
+
+		$('.ajaxrequest').on('click', function(e) {
+	      	e.preventDefault();
+	      	$.ajax({
+	        	type: 'GET',
+	        	url: $(this).attr('href'),
+	        	success: function(data) {
+		          	if (data == true) {
+		            	location.href = '/admin/contests';
+		          	} else {
+		            	alert('Error.. Something must have gone wrong.');
+			        };
+	        	}
+	      	});
+	    });
 	});
 </script>

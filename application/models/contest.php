@@ -86,6 +86,14 @@ class Contest extends Eloquent
 			$table->boolean('active');
 			$table->timestamps();
 		});
+
+		Schema::create('settings', function($table)
+		{
+			$table->increments('id');
+			$table->string('setting');
+			$table->string('value');
+			$table->timestamps();
+		});
 	}
 
 	public static function unsetup()

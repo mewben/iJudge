@@ -120,10 +120,13 @@ class Admin_Controller extends Base_Controller
 
 		Menu::handler('admin', array('class' => 'nav pull-right'))
 				->add('dashboard', 'Dashboard')
-				->add('#', '<i class="icon-cog icon-white"></i> Manage <b class="caret"></b>', $manage, array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown'), array('class'=>'dropdown'));
+				->add('contests', 'Contests')
+				->add('settings', 'Settings');
+				//->add('#', '<i class="icon-cog icon-white"></i> Manage <b class="caret"></b>', $manage, array('class'=>'dropdown-toggle', 'data-toggle'=>'dropdown'), array('class'=>'dropdown'));
+
 
 		$account = Menu::items(array('class'=>'dropdown-menu'))
-				->add('statistics', 'Statistics')
+				//->add('statistics', 'Statistics')
 				->add('password', 'Change Password')
 				->add('logout', 'Log out');
 
