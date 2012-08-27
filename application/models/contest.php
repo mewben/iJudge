@@ -91,9 +91,15 @@ class Contest extends Eloquent
 		{
 			$table->increments('id');
 			$table->string('setting');
-			$table->string('value');
+			$table->text('value');
 			$table->timestamps();
 		});
+		DB::table('settings')->insert(
+			array(
+				array('setting' => 'type'),
+				array('setting' => 'resultform')
+			)
+		);
 	}
 
 	public static function unsetup()
@@ -102,6 +108,7 @@ class Contest extends Eloquent
 		Schema::drop('criteria');
 		Schema::drop('judges');
 		Schema::drop('contestants');
+		Schema::drop('settings');
 	}
 }
 

@@ -15,9 +15,27 @@ class Admin_Settings_Controller extends Admin_Controller
 
 	public function get_index()
 	{
+		$data = Setting::getSettings();
 		$this->layout->title = "Settings";
 		$this->layout->otherhead = true; // for redactor js
-		$this->layout->content = View::make($this->vie)->with('data', array());
+		$this->layout->content = View::make($this->vie)->with('data', $data);
+	}
+
+	public function post_save()
+	{
+		if (Input::get('type')) {
+			$record =Setting::where('setting', '=', 'type')->first();
+			if ($record) {
+				$record->value = Input::get('type');
+				$record->save();
+			}			
+		}
+		$record = Setting::where('setting', '=', 'resultform')->first();
+		if ($record) {
+			$record->value = Input::get('result_form');
+			$record->save();
+		}
+		return Redirect::to('admin/settings');
 	}
 
 	public function get_view($id) // contest_id
